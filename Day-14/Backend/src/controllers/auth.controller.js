@@ -70,7 +70,7 @@ async function loginController(req, res) {
 
   const user = await userModel.findOne({
     $or: [{ username: username }, { email: email }],
-  });
+  }).select("+password")
   if (!user) {
     return res.status(401).json({
       message: "Invalid credentials",
@@ -88,7 +88,11 @@ async function loginController(req, res) {
     process.env.JWT_SECRET,
     { expiresIn: "1d" },
   );
-  res.cookie("token", token);
+  res.cookie("token", token,{
+    httpOnly: true,
+    sameSite: "lax",
+    secure: false
+  });
 
   res.status(200).json({
     message: "User logged in successfully",
