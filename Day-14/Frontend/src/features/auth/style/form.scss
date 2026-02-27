@@ -1,38 +1,164 @@
-@mixin flex-column($gap: 0rem){
-    display: flex;
-    flex-direction: column;
-    gap: $gap;
-}
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap');
 
-
-
-main{
+main {
     min-height: 100vh;
-    width: 100%;
-
-
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: #0a0a0f;
+    padding: 2rem;
+}
 
+.from-container {
+    position: relative;
+    background: #12121a;
+    border-radius: 20px;
+    padding: 3rem;
+    width: 100%;
+    max-width: 440px;
+    overflow: hidden;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
 
-    .from-container{
-        @include flex-column(1rem);
-        min-width: 350px;
+    // Animated teal/emerald/cyan gradient — distinct from the pink/purple of CreatePost
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+            radial-gradient(ellipse at 15% 85%, rgba(20, 255, 180, 0.12) 0%, transparent 55%),
+            radial-gradient(ellipse at 85% 15%, rgba(0, 200, 255, 0.12) 0%, transparent 55%),
+            radial-gradient(ellipse at 50% 50%, rgba(80, 255, 160, 0.05) 0%, transparent 60%);
+        animation: loginBgShift 7s ease-in-out infinite alternate;
+        z-index: 0;
+        border-radius: 20px;
     }
 
-    form{
-        @include flex-column(1rem);
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        pointer-events: none;
+        z-index: 1;
+    }
 
+    > * {
+        position: relative;
+        z-index: 2;
+    }
 
+    h1 {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 2.2rem;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 2rem;
+        letter-spacing: 0.5px;
 
-
-        input{
-            border: none;
-            outline: none;
-            padding-inline: 1rem;
-            padding-block: 0.5rem;
-            border-radius: 1rem;
+        &::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, #14ffb4, #00c8ff);
+            margin-top: 0.5rem;
+            border-radius: 2px;
         }
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.1rem;
+
+        input {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 0.9rem 1.2rem;
+            outline: none;
+            transition: all 0.3s ease;
+            width: 100%;
+
+            &::placeholder {
+                color: rgba(255, 255, 255, 0.2);
+            }
+
+            &:focus {
+                border-color: rgba(20, 255, 180, 0.5);
+                background: rgba(20, 255, 180, 0.04);
+                box-shadow: 0 0 0 3px rgba(20, 255, 180, 0.08);
+            }
+        }
+
+        button {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #0a0a0f;
+            background: linear-gradient(135deg, #14ffb4, #00c8ff);
+            border: none;
+            border-radius: 12px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.3px;
+            margin-top: 0.5rem;
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(20, 255, 180, 0.3);
+                filter: brightness(1.05);
+            }
+
+            &:active {
+                transform: translateY(0);
+            }
+        }
+    }
+
+    p {
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.875rem;
+        color: rgba(255, 255, 255, 0.35);
+        margin-top: 1.5rem;
+        text-align: center;
+
+        a {
+            color: #14ffb4;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+
+            &:hover {
+                color: #00c8ff;
+            }
+        }
+    }
+}
+
+@keyframes loginBgShift {
+    0% {
+        background:
+            radial-gradient(ellipse at 15% 85%, rgba(20, 255, 180, 0.12) 0%, transparent 55%),
+            radial-gradient(ellipse at 85% 15%, rgba(0, 200, 255, 0.12) 0%, transparent 55%),
+            radial-gradient(ellipse at 50% 50%, rgba(80, 255, 160, 0.05) 0%, transparent 60%);
+    }
+    50% {
+        background:
+            radial-gradient(ellipse at 75% 25%, rgba(20, 255, 180, 0.15) 0%, transparent 55%),
+            radial-gradient(ellipse at 20% 75%, rgba(0, 200, 255, 0.15) 0%, transparent 55%),
+            radial-gradient(ellipse at 60% 40%, rgba(80, 255, 160, 0.07) 0%, transparent 60%);
+    }
+    100% {
+        background:
+            radial-gradient(ellipse at 40% 10%, rgba(20, 255, 180, 0.1) 0%, transparent 55%),
+            radial-gradient(ellipse at 60% 90%, rgba(0, 200, 255, 0.1) 0%, transparent 55%),
+            radial-gradient(ellipse at 20% 50%, rgba(80, 255, 160, 0.08) 0%, transparent 60%);
     }
 }

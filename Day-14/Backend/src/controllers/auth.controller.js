@@ -2,6 +2,11 @@ const userModel = require("../models/user.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+const ImageKit = require('@imagekit/nodejs')
+const { toFile } = require('@imagekit/nodejs')
+const imagekit = new ImageKit({ privateKey: process.env.IMAGEKIT_PRIVATE_KEY })
+
+
 async function registerController(req, res) {
   const { username, email, password, bio, profileImage } = req.body;
 
@@ -35,6 +40,9 @@ async function registerController(req, res) {
   }
 
   const hash = await bcrypt.hash(password, 10);
+
+
+
 
   const user = await userModel.create({
     username,

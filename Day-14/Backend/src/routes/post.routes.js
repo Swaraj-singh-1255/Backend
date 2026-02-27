@@ -13,9 +13,9 @@ postRouter.post("/",upload.single("image"), identifyUser, postController.createP
  * GET /api/posts/ [protected]
  */
 
+
+
 postRouter.get("/", identifyUser, postController.getPostController)
-
-
 /**
  * GET /api/posts/detail/postid
  * -- return an detil about specific post with the id. also check wheter the post belongs to the user that hte request come from
@@ -27,8 +27,13 @@ postRouter.get("/details/:postId", identifyUser, postController.getPostDetailsCo
  * @route POST/api/posts/like/:postid
  */
 postRouter.post('/like/:postId', identifyUser,postController.likePostConstroller)
+postRouter.delete('/unlike/:postId', identifyUser,postController.unlikePostConstroller)
+
+
+
 
 postRouter.get('/feed', identifyUser, postController.getFeedController)
+
 
 
 module.exports = postRouter
