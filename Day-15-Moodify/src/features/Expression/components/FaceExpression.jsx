@@ -1,0 +1,38 @@
+import { useEffect, useRef, useState } from "react";
+import { detect, init } from "../units/unit";
+
+export default function FaceExpression() {
+    const videoRef = useRef(null);
+    const landmarkerRef = useRef(null);
+    const streamRef = useRef(null);
+
+    const [expression, setExpression] = useState("Detecting...");
+
+    useEffect(() => {
+        init({ landmarkerRef, videoRef, streamRef });
+
+        return () => {
+            if (landmarkerRef.current) {
+                landmarkerRef.current.close();
+            }
+            if (streamRef.current) {
+                streamRef.current.getTracks().forEach((track) => track.stop());
+            }
+        };
+    }, []);
+
+    return (
+        <div style={{ textAlign: "center" }}>
+            <video
+                ref={videoRef}
+                style={{ width: "400px", borderRadius: "12px" }}
+                playsInline
+                muted  // ✅ Required for autoplay in most browsers
+            />
+            <h2>{expression}</h2>
+            <button onClick={() => detect({ landmarkerRef, videoRef, setExpression })}>
+                Detect Expression
+            </button>
+        </div>
+    );
+}
