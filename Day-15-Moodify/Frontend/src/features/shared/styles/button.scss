@@ -1,0 +1,102 @@
+@use 'sass:color';
+
+// ─── Variables ───────────────────────────────────────────────
+$primary:     #1db954;
+$error:       #ff4d6d;
+$dark-bg:     #121212;
+$radius-pill: 50px;
+$transition:  0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+// ─── Keyframes ───────────────────────────────────────────────
+
+@keyframes glow-breathe {
+  0%, 100% { box-shadow: 0 0 10px 2px rgba($primary, 0.3); }
+  50%       { box-shadow: 0 0 24px 6px rgba($primary, 0.7); }
+}
+
+@keyframes ripple {
+  0%   { transform: scale(0); opacity: 0.4; }
+  100% { transform: scale(4); opacity: 0;   }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0);   }
+  20%       { transform: translateX(-8px); }
+  40%       { transform: translateX(8px);  }
+  60%       { transform: translateX(-5px); }
+  80%       { transform: translateX(5px);  }
+}
+
+// ─── Login Button ─────────────────────────────────────────────
+.btn-login {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 14px;
+  margin-top: 8px;
+  border: none;
+  border-radius: $radius-pill;
+  background: $primary;
+  color: $dark-bg;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  animation: glow-breathe 3s ease-in-out infinite;
+  transition: background $transition, transform $transition, box-shadow $transition;
+
+  // Ripple on click
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(0);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &:active::after {
+    animation: ripple 0.5s ease-out forwards;
+  }
+
+  &:hover {
+    background: lighten($primary, 6%);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 28px rgba($primary, 0.5);
+    animation: none;
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    pointer-events: none;
+    animation: none;
+  }
+
+  // Error state — invalid input
+  &.error {
+    background: $error;
+    animation: none;
+    box-shadow: 0 0 18px rgba($error, 0.5);
+
+    &:hover {
+      background: lighten($error, 6%);
+      box-shadow: 0 8px 28px rgba($error, 0.5);
+    }
+  }
+
+  // Shake animation class
+  &.shake {
+    animation: shake 0.4s ease both;
+  }
+}
