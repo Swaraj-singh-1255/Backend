@@ -1,40 +1,44 @@
 import { login, register, getme, logout } from "../services/auth.api"
 import { AuthContext } from "../auth.context"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 
 export const useAuth = () => {
     const context = useContext(AuthContext)
-    const { user, setUser, loading, setLoading } = context  // ✅ setLoading fixed
+    const { user, setUser, loading, setLoading } = context  
 
     async function handleRegister({ username, email, password }) {
-        setLoading(true)                                      // ✅ setLoading fixed
+        setLoading(true)                                      
         const data = await register({ username, email, password })
         setUser(data.user)
-        setLoading(false)                                     // ✅ setLoading fixed
+        setLoading(false)                                     
     }
 
-    async function handlelogin({ email, password }) {
-        setLoading(true)                                      // ✅ setLoading fixed
-        const data = await login({ email, password })         // ✅ calls login() not register()
+    async function handlelogin({username, email, password }) {
+        setLoading(true)                                      
+        const data = await login({username, email, password })         
         setUser(data.user)
-        setLoading(false)                                     // ✅ setLoading fixed
+        setLoading(false)                                     
     }
 
     async function handleGetMe() {
-        setLoading(true)                                      // ✅ setLoading fixed
+        setLoading(true)                                      
         const data = await getme()
         setUser(data.user)
-        setLoading(false)                                     // ✅ setLoading fixed
+        setLoading(false)                                     
     }
 
     async function handleLogout() {
-        setLoading(true)                                      // ✅ setLoading fixed
+        setLoading(true)                                      
         await logout()
-        setUser(null)                                         // ✅ set null, logout has no user
-        setLoading(false)                                     // ✅ setLoading fixed
+        setUser(null)                                          
+        setLoading(false)                                     
     }
 
+    useEffect(() => {
+        handleGetMe()
+    }, [])
+
     return {
-        user, loading, handleRegister, handlelogin, handleLogout, handleGetMe  // ✅ handlelogin lowercase
+        user, loading, handleRegister, handlelogin, handleLogout, handleGetMe  
     }
 }
