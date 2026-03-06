@@ -58,15 +58,18 @@ export const detect = ({ landmarkerRef, videoRef, setExpression }) => {
 
         // Order matters: check most distinct expressions first
         if (smileLeft > 0.5 && smileRight > 0.5) {
-            currentExpression = "Happy 😄";
+            currentExpression = "happy";
         } else if (jawOpen > 0.3 && browUp > 0.3) {
-            currentExpression = "Surprised 😲";
+            currentExpression = "surprised";
         } else if (frownLeft > 0.15 && frownRight > 0.15) { // Fixed: was 0.0001
-            currentExpression = "Sad 😢";
+            currentExpression = "sad";
         }
 
         setExpression(currentExpression);
+        return  currentExpression
     } else {
         setExpression("No face detected 🙁");
     }
+
+    
 };

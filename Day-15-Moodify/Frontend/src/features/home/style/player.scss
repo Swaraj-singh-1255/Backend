@@ -1,0 +1,282 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap');
+
+.player-bar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+
+  width: calc(100vw - 48px);
+  max-width: 1100px;
+  height: 76px;
+
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 0 20px;
+
+  background: rgba(14, 14, 16, 0.82);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.04),
+    0 24px 60px rgba(0,0,0,0.6),
+    0 0 40px var(--glow);
+  transition: box-shadow 0.5s ease;
+
+  // noise texture
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+}
+
+.bar-glow {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 40px;
+  background: var(--glow);
+  filter: blur(30px);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.6;
+  transition: background 0.5s ease;
+}
+
+/* LEFT */
+.bar-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 220px;
+  flex-shrink: 0;
+}
+
+.bar-poster {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.1), 0 0 16px var(--glow);
+  transition: box-shadow 0.4s;
+
+  img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 8s linear;
+  }
+
+  &.spin img {
+    animation: slowspin 12s linear infinite;
+  }
+}
+
+.mood-dot {
+  position: absolute;
+  bottom: 3px; right: 3px;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--glow);
+  border: 1px solid #0d0d0f;
+}
+
+.bar-shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+.bar-meta {
+  overflow: hidden;
+}
+
+.bar-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+  letter-spacing: -0.01em;
+}
+
+.bar-mood {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  color: var(--accent);
+  margin-top: 2px;
+  opacity: 0.85;
+}
+
+/* CENTER */
+.bar-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.bar-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bc-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(255,255,255,0.38);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  padding: 6px;
+  transition: color 0.2s, transform 0.15s, background 0.2s;
+
+  &:hover {
+    color: rgba(255,255,255,0.9);
+    transform: scale(1.12);
+    background: rgba(255,255,255,0.06);
+  }
+
+  &.play {
+    width: 44px; height: 44px;
+    background: var(--accent);
+    color: #0d0d0f !important;
+    border-radius: 50%;
+    box-shadow: 0 0 18px var(--glow);
+    transition: transform 0.15s, box-shadow 0.3s !important;
+
+    &:hover {
+      transform: scale(1.1) !important;
+      box-shadow: 0 0 30px var(--glow) !important;
+      background: var(--accent) !important;
+    }
+
+    &.playing {
+      position: relative;
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        border: 2px solid var(--accent);
+        animation: pulse-ring 1.4s ease-out infinite;
+        pointer-events: none;
+      }
+    }
+  }
+
+  &.small { padding: 4px; }
+}
+
+.bar-progress-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.bar-time {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+.bar-progress {
+  flex: 1;
+  height: 4px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 99px;
+  cursor: pointer;
+  position: relative;
+
+  &:hover .bar-thumb { opacity: 1; transform: translateY(-50%) scale(1); }
+}
+
+.bar-progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 99px;
+  box-shadow: 0 0 8px var(--glow);
+  position: relative;
+  transition: width 0.1s linear;
+}
+
+.bar-thumb {
+  position: absolute;
+  right: -5px; top: 50%;
+  transform: translateY(-50%) scale(0.5);
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 6px var(--glow);
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+/* RIGHT */
+.bar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 130px;
+  flex-shrink: 0;
+  justify-content: flex-end;
+}
+
+.bar-vol {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 90px;
+  height: 3px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 99px;
+  outline: none;
+  cursor: pointer;
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 6px var(--glow);
+    cursor: pointer;
+  }
+}
+
+/* animations */
+@keyframes pulse-ring {
+  0%   { transform: scale(1);   opacity: 0.6; }
+  100% { transform: scale(1.6); opacity: 0;   }
+}
+@keyframes slowspin {
+  from { transform: scale(1.05) rotate(0deg); }
+  to   { transform: scale(1.05) rotate(360deg); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
