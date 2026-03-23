@@ -6,9 +6,5 @@ const geminiModel = new ChatGoogleGenerativeAI({
     apiKey: process.env.GEMINI_API_KEY
 });
 
-export async function testAi() {  
-    geminiModel.invoke("What is the best way to learn a new skill? 10 words").then((response) => {
-        console.log(response.content); 
-    })
-}
+
 
