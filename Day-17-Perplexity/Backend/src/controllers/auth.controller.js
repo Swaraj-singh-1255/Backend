@@ -31,7 +31,7 @@ export async function register(req, res) {
         email: user.email,
     }, process.env.JWT_SECRET)
 
-    await sendEmail({
+    sendEmail({
         to: email,
         subject: "Welcome to Perplexity!",
         html: `
@@ -42,9 +42,9 @@ export async function register(req, res) {
                 <p>If you did not create an account, please ignore this email.</p>
                 <p>Best regards,<br>The Perplexity Team</p>
         `
-    })
+    }).catch(err => console.error("Email error:", err))
 
-    res.status(201).json({
+    return res.status(201).json({
         message: "User registered successfully",
         success: true,
         user: {
@@ -87,13 +87,13 @@ export async function login(req, res) {
         })
     }
 
-    if (!user.verified) {
-        return res.status(400).json({
-            message: "Please verify your email before logging in",
-            success: false,
-            err: "Email not verified"
-        })
-    }
+    // if (!user.verified) {
+    //     return res.status(400).json({
+    //         message: "Please verify your email before logging in",
+    //         success: false,
+    //         err: "Email not verified"
+    //     })
+    // }
 
     const token = jwt.sign({
         id: user._id,
