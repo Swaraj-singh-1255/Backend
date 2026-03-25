@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="g1" x1="10" y1="6" x2="54" y2="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#41D1FF"/>
+      <stop offset="1" stop-color="#BD34FE"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="25" y1="8" x2="40" y2="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFEA83"/>
+      <stop offset="1" stop-color="#FFA800"/>
+    </linearGradient>
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Stylized "A" -->
+  <g filter="url(#softGlow)">
+    <path
+      d="M32 6
+         L58 58
+         H40
+         L32 41
+         L24 58
+         H6
+         Z"
+      fill="url(#g1)"
+      stroke="rgba(255,255,255,0.35)"
+      stroke-width="1.5"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M24 33
+         H40
+         L38 39
+         H26
+         Z"
+      fill="url(#g2)"
+      opacity="0.95"
+    />
+    <circle cx="32" cy="18" r="6" fill="rgba(255,255,255,0.12)"/>
+    <circle cx="32" cy="18" r="3" fill="rgba(125,211,252,0.7)"/>
+  </g>
+</svg>
+

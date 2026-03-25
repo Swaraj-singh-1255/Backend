@@ -1,9 +1,13 @@
 import { createBrowserRouter } from "react-router";
 import Login from "../features/auth/pages/login";
 import Register from "../features/auth/pages/register";
-import Dashboard from "../features/chat/pages/Dashboard";
+import DashboardLayout from "../features/chat/layouts/DashboardLayout";
 import Protected from "../features/auth/components/Protected";
 import { Navigate } from "react-router";
+import Home from "../features/chat/pages/Home";
+import Templates from "../features/chat/pages/Templates";
+import Explore from "../features/chat/pages/Explore";
+import Wallet from "../features/chat/pages/Wallet";
 
 export const router = createBrowserRouter([
     {
@@ -16,9 +20,33 @@ export const router = createBrowserRouter([
     },
     {
         path: "/",
-        element: <Protected>
-            <Dashboard />
-        </Protected>
+        element: (
+          <Protected>
+            <DashboardLayout />
+          </Protected>
+        ),
+        children: [
+          {
+            index: true,
+            element: <Home />
+          },
+          {
+            path: "history",
+            element: <Home />
+          },
+          {
+            path: "templates",
+            element: <Templates />
+          },
+          {
+            path: "explore",
+            element: <Explore />
+          },
+          {
+            path: "wallet",
+            element: <Wallet />
+          }
+        ]
     },
     {
         path: "/dashboard",
