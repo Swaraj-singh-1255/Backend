@@ -59,8 +59,7 @@ export async function generateChatTitle(message) {
         new SystemMessage(`
             You are a helpful assistant that generates concise and descriptive titles for chat conversations.
             
-            User will provide you with the first message of a chat conversation, and you will generate a title that captures the essence of the conversation in 2-4 words.
-            Return plain text only. Do not use markdown, asterisks, backticks, bullets, or quotes.    
+            User will provide you with the first message of a chat conversation, and you will generate a title that captures the essence of the conversation in 2-4 words. The title should be clear, relevant, and engaging, giving users a quick understanding of the chat's topic.    
         `),
         new HumanMessage(`
             Generate a title for a chat conversation based on the following first message:
@@ -68,38 +67,6 @@ export async function generateChatTitle(message) {
             `)
     ])
 
-    return sanitizeChatTitle(response.text);
+    return response.text;
 
-}
-
-export function sanitizeChatTitle(rawTitle) {
-    if (!rawTitle || typeof rawTitle !== "string") {
-        return "New Chat";
-    }
-
-    let cleanedTitle = rawTitle.trim();
-
-    // Remove markdown emphasis/code markers.
-    cleanedTitle = cleanedTitle.replace(/[*_~`]+/g, "");
-
-    // Remove markdown links: [text](url) -> text.
-    cleanedTitle = cleanedTitle.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
-
-    // Remove leading markdown heading/list/quote tokens.
-    cleanedTitle = cleanedTitle.replace(/^\s{0,3}(#{1,6}\s+|[-+]\s+|\d+\.\s+|>\s+)/, "");
-
-    // Remove wrapping single/double quotes repeatedly.
-    cleanedTitle = cleanedTitle.trim().replace(/^["']+|["']+$/g, "");
-    while (
-        cleanedTitle.length >= 2 &&
-        ((cleanedTitle.startsWith('"') && cleanedTitle.endsWith('"')) ||
-            (cleanedTitle.startsWith("'") && cleanedTitle.endsWith("'")))
-    ) {
-        cleanedTitle = cleanedTitle.slice(1, -1).trim();
-    }
-
-    // Normalize whitespace and trim again.
-    cleanedTitle = cleanedTitle.replace(/\s+/g, " ").trim();
-
-    return cleanedTitle || "New Chat";
 }
