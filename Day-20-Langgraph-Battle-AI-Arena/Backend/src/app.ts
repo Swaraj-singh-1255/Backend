@@ -1,5 +1,5 @@
 import express from "express"
-import useGraph from "./services/grap.ai.service.js"
+import useGraph from "./ai/grap.ai.js"
 
 const app = express()
 
